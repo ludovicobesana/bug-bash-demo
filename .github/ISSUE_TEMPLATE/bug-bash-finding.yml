@@ -1,0 +1,100 @@
+name: Bug Bash finding
+description: Capture an observation, risk, question, UX concern, or defect from a Bug Bash session.
+title: "[Bug Bash] "
+labels:
+  - bug-bash
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Preserve the observation before deciding what it is
+
+        A finding is not automatically a bug. Capture what you observed, why it matters, and the evidence available. Triage will decide the appropriate outcome.
+
+  - type: dropdown
+    id: finding-type
+    attributes:
+      label: Finding type
+      description: Choose the closest current description. Triage can change it.
+      options:
+        - Defect
+        - Risk or fragile condition
+        - Question or ambiguous behaviour
+        - UX observation
+        - Missing requirement
+        - Idea for protection or improvement
+    validations:
+      required: true
+
+  - type: input
+    id: charter
+    attributes:
+      label: Charter or perspective
+      description: Which mission or perspective led to this finding?
+      placeholder: "Recovery - interrupted checkout"
+    validations:
+      required: true
+
+  - type: textarea
+    id: observation
+    attributes:
+      label: What did you observe?
+      description: State what happened without diagnosing the cause yet.
+      placeholder: "After losing connectivity immediately after Pay, the user could submit a second payment while the first result was unknown."
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-interesting
+    attributes:
+      label: Why is this interesting or risky?
+      description: Describe the user, business, operational, accessibility, privacy, or security consequence you are concerned about.
+      placeholder: "The user may believe the first payment failed and create a duplicate charge."
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and reproducibility
+      description: Include steps, screenshots, video, logs, request IDs, or the reason it could not be reproduced. Do not upload real customer or sensitive data.
+      placeholder: |
+        Environment:
+        Steps:
+        Observed result:
+        Evidence attached:
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Potential impact if confirmed
+      description: This is a hypothesis for triage, not final severity.
+      options:
+        - High - critical journey, safety, security, legal, privacy, or material financial impact
+        - Medium - meaningful user or operational impact with a workaround or limited scope
+        - Low - limited impact or unclear consequence
+        - Unknown - needs investigation
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Device, browser, account state, locale, network condition, feature flag, or other relevant conditions.
+      placeholder: "Mobile Safari, slow network, existing cart, payment provider sandbox"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before submitting
+      options:
+        - label: I captured an observation and evidence rather than only a conclusion.
+          required: true
+        - label: I did not include secrets, personal data, or real customer data.
+          required: true

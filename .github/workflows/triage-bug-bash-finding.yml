@@ -1,0 +1,35 @@
+name: Triage new Bug Bash finding
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  prompt-triage:
+    if: contains(github.event.issue.labels.*.name, 'bug-bash')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post the triage prompt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+          TRIAGE_BODY: |
+            ## Bug Bash triage
+
+            This issue is a finding, not yet a verdict. During triage:
+
+            1. Confirm or reject the observation with the available evidence.
+            2. Identify the risk, affected journey, and missing oracle or requirement.
+            3. Decide the durable outcome: code, test, design, telemetry, monitoring, requirement, documentation, or accepted risk.
+            4. Name the owner and review date for any material decision.
+
+            Do not optimise this review for bug count. Optimise it for a clearer decision and stronger protection.
+        run: |
+          gh api --method POST \
+            "/repos/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" \
+            --raw-field body="$TRIAGE_BODY"
