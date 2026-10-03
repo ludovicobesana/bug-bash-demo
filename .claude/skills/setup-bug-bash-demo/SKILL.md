@@ -34,6 +34,7 @@ Arguments: repository `$repo` (either `OWNER/REPO` or just `REPO`, in which case
 
 - **The repository does not exist:** run `gh repo create OWNER/REPO --$visibility --source=. --remote=origin --push`.
 - **The repository exists and is empty or already this demo:** set `origin` if it is missing (`git remote add origin https://github.com/OWNER/REPO.git`), then run `git push -u origin main`.
+- Pushing `.github/workflows/` needs a token with the `workflow` scope. If `gh auth status` shows that the active token, for example `GITHUB_TOKEN` from the environment, lacks it but a keyring login has it, push with `env -u GITHUB_TOKEN git -c credential.helper= -c 'credential.helper=!gh auth git-credential' push -u origin main`.
 - Check that the default branch is `main` and contains `.github/workflows/triage-bug-bash-finding.yml`. The `issues` trigger only runs workflows from the default branch.
 
 ## 3. Labels

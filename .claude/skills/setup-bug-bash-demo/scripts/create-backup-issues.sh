@@ -108,6 +108,9 @@ fi
 
 issue_b="$(ensure_issue B)"
 
+# Keep the demo order on B: triage checklist first, then the decision record.
+wait_for_triage_comment "$issue_b" || echo "No triage comment on #${issue_b}; adding the decision record anyway." >&2
+
 gh issue edit "$issue_b" --repo "$repository" \
 	--add-label 'finding:risk' --add-label 'decision-needed' --remove-label 'needs-triage' >/dev/null
 
